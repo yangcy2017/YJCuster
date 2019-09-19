@@ -57,17 +57,25 @@ public class UserEntity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         UserEntity that = (UserEntity) o;
 
-        if (id != that.id) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-
-        return true;
+        if (id != that.id) {
+            return false;
+        }
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) {
+            return false;
+        }
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) {
+            return false;
+        }
+        return password != null ? password.equals(that.password) : that.password == null;
     }
 
     @Override

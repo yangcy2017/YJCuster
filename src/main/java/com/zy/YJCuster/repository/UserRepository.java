@@ -13,15 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository // 添加注解
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-    @Modifying // 说明该方法是修改操作
-    @Transactional // 说明该方法是事务性操作
-    // 定义查询
+    /**
+     * @param firstName
+     * @param qLastName
+     * @param password
+     * @param id
+     */
+    // 说明该方法是修改操作
+    @Modifying
+    // 说明该方法是事务性操作
+    @Transactional(rollbackFor = Exception.class)
     // @Param注解用于提取参数
     @Query("update UserEntity us set us.firstName=:qFirstName, us.lastName=:qLastName, us.password=:qPassword where us.id=:qId")
-    public void updateUser(@Param("qFirstName") String firstName,
-                           @Param("qLastName") String qLastName,
-                           @Param("qPassword") String password,
-                           @Param("qId") Integer id);
+    void updateUser(@Param("qFirstName") String firstName,
+                    @Param("qLastName") String qLastName,
+                    @Param("qPassword") String password,
+                    @Param("qId") Integer id);
 
     UserEntity findById(Integer userId);
 }
