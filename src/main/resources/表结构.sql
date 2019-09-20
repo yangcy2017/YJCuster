@@ -22,9 +22,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `cust_rela`;
 CREATE TABLE `cust_rela`  (
-  `CUST_NUMBER` decimal(65, 0) NULL DEFAULT NULL COMMENT '客户号',
-  `RELA_CUST_NUMBER` decimal(65, 0) NULL DEFAULT NULL COMMENT '关联客户号',
-  `RELA_CUST_KILL_TIME` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '关联人进场时间'
+  `CUST_NUMBER` varchar(100) NULL DEFAULT NULL COMMENT '客户号',
+  `RELA_CUST_NUMBER` varchar(100) NULL DEFAULT NULL COMMENT '关联客户号',
+  `RELA_CUST_KILL_TIME` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '新客户进场时间'
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 -- ----------------------------
@@ -58,7 +58,7 @@ COMMIT;
 DROP TABLE IF EXISTS `killer_cust`;
 CREATE TABLE `killer_cust`  (
   `CUST_NAME` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '客户姓名',
-  `CUST_NUMBER` decimal(65, 0) NULL DEFAULT NULL COMMENT '客户号',
+  `CUST_NUMBER` varchar(100) NULL DEFAULT NULL COMMENT '客户号',
   `CUST_GENDER` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '客户性别',
   `CUST_FTIME` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '客户开户时间',
   `CUST_PHONE` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '客户联系方式'
@@ -76,7 +76,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `killer_info`;
 CREATE TABLE `killer_info`  (
-  `CUST_NUMBER` decimal(65, 0) NULL DEFAULT NULL COMMENT '客户号',
+  `CUST_NUMBER` varchar(100) NULL DEFAULT NULL COMMENT '客户号',
   `KILL_TIME` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '玩家进场日期',
   `ITEM_ID` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '当日主题代码',
   `ROLE_ID` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '当日角色',
