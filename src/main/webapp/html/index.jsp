@@ -75,18 +75,119 @@
     </style>
     <script>
         $(function () {
+            $(".add").on("click", function () {
+                alertAddCustWindow();
+            });
+            $(".search").on("click", function () {
+                var keyword = $(".keyword").val();
+                if(!keyword){
+                    alert("请输入关键字");
+                    return;
+                }
+                var searchType = $(".searchType").val();
+                var data = {};
+                data.keyword = keyword;
+                data.searchType = searchType;
+                $.ajax({
+                    url: "/killer/cust/search",
+                    data: data,
+                    type: "POST",
+                    dataType: "json",
+                    success: function(data) {
+                        if(data.code == 0){
+                            var records = data.data;
+                            var _html = "";
+                            $.each(records, function (i,e) {
+                                _html += "" +
+                                    "<tr>" +
+                                    "   <td>"+e.name+"</td>" +
+                                    "   <td>"+e.number+"</td>" +
+                                    "   <td>"+e.phone+"</td>" +
+                                    "   <td>"+e.gender+"</td>" +
+                                    "   <td><a onclick='showInfo();'>"+"详情"+"</a></td>" +
+                                    "</tr>";
+                            });
+                            $("tbody").html(_html);
+                        }else{
+                            $("tbody").html("");
+                            alert(data.msg);
+                        }
+                    },
+                    error:function () {
+                        alert("请求异常！");
+                    }
+                });
 
+            });
         });
-        function alertAddCustWindow(title, msg, callback) {
-            GenerateHtml( title, msg);
-            btnOk(callback);
-            btnNo();
+        function showInfo(){
+            alert("张总御用架构师正在紧急开发中，请稍后");
         }
-        var GenerateHtml = function( title, msg) {
+        function alertAddCustWindow() {
+            GenerateHtml("新增用户");
+            $("#mb_btn_ok").click(function() {
+                var name = $("#name").val();
+                var wx = $("#wx").val();
+                var phone = $("#phone").val();
+                var gender = $("#gender").val();
+                var recommendWx = $("#recommendWx").val();
+                if(!name){
+                    alert("姓名不可为空");
+                    return;
+                }
+                if(!wx){
+                    alert("微信不可为空");
+                    return;
+                }
+                if(!phone){
+                    alert("手机号不可为空");
+                    return;
+                }
+                if(!gender){
+                    alert("性别不可为空");
+                    return;
+                }
+                var data = {};
+                data.name = name;
+                data.wx = wx;
+                data.phone = phone;
+                data.gender = gender;
+                data.recommendWx = recommendWx;
+                $.ajax({
+                    url: "/killer/cust/add",
+                    data: data,
+                    type: "POST",
+                    dataType: "json",
+                    success: function(data) {
+                        if(data.code == 0){
+                            $("#mb_box,#mb_con").remove();
+                        }else{
+                            alert("创建用户失败：" + data.msg);
+                        }
+                    },
+                    error:function () {
+                        alert("请求异常！");
+                    }
+                });
+            });
+            $("#mb_btn_no,#mb_ico").click(function() {
+                $("#mb_box,#mb_con").remove();
+            });
+        }
+        var GenerateHtml = function(title) {
             var _html = "";
-            _html += '<div id="mb_box"></div><div id="mb_con"><span id="mb_tit">' + title + '</span>';
-            _html += '<a id="mb_ico">x</a><div id="mb_msg">' + msg + '</div><div id="mb_btnbox">';
-
+            _html +=    '<div id="mb_box"></div>' +
+                        '<div id="mb_con">' +
+                            '<span id="mb_tit">' + title + '</span>' +
+                            '<a id="mb_ico">x</a>' +
+                            '<div id="mb_msg">' +
+                                '<span>姓名:</span><input type="text" name="name" id="name"><br/><br/>'+
+                                '<span>微信号:</span><input type="text" name="wx" id="wx"><br/><br/>'+
+                                '<span>性别:</span><input type="text" name="gender" id="gender"><br/><br/>'+
+                                '<span>电话:</span><input type="text" name="phone" id="phone"><br/><br/>'+
+                                '<span>推荐人微信号:</span><input type="text" name="recommendWx" id="recommendWx">'+
+                            '</div>' +
+                        '<div id="mb_btnbox">';
             _html += '<input id="mb_btn_ok" type="button" value="确定" />';
             _html += '<input id="mb_btn_no" type="button" value="取消" />';
 
@@ -96,7 +197,6 @@
             //生成Css
             GenerateCss();
         }
-
         //生成Css
         var GenerateCss = function() {
             $("#mb_box").css({
@@ -132,6 +232,10 @@
                 lineHeight: '20px',
                 borderBottom: '1px dashed #DDD',
                 fontSize: '13px'
+            });
+            $("#mb_msg span").css({
+                display:'inline-block',
+                width:'100px'
             });
             $("#mb_ico").css({
                 display: 'block',
@@ -184,21 +288,6 @@
             $("#mb_con").css({
                 top: (_height - boxHeight) / 2 + "px",
                 left: (_widht - boxWidth) / 2 + "px"
-            });
-        }
-        //确定按钮事件
-        var btnOk = function(callback) {
-            $("#mb_btn_ok").click(function() {
-                $("#mb_box,#mb_con").remove();
-                if (typeof(callback) == 'function') {
-                    callback();
-                }
-            });
-        }
-        //取消按钮事件
-        var btnNo = function() {
-            $("#mb_btn_no,#mb_ico").click(function() {
-                $("#mb_box,#mb_con").remove();
             });
         }
 

@@ -9,5 +9,12 @@
         <constructor-arg value="Sgt. Pepper's Lonely Hearts Club Band" />
         <constructor-arg value="The Bearlesss" />
     </bean>
-
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
 </beans>
