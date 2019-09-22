@@ -25,11 +25,13 @@ public class KillerCustController {
         if(killerCustService.isExistByWx(wx)){
             return AjaxResult.instanceForError("微信号重复").toJsonString();
         }
-        if(!killerCustService.isExistByWx(recommendWx)){
-            return AjaxResult.instanceForError("推荐人微信号不存在").toJsonString();
-        }
         if(killerCustService.isExistByPhone(phone)){
             return AjaxResult.instanceForError("手机重复").toJsonString();
+        }
+        if(recommendWx != null && recommendWx.trim().length() > 0){
+            if(!killerCustService.isExistByWx(recommendWx)){
+                return AjaxResult.instanceForError("推荐人微信号不存在").toJsonString();
+            }
         }
 
         killerCustService.saveKillerCust(name,  wx,  gender,  phone, recommendWx);
